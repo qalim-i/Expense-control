@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/expense_list.css' %}">
+</head>
+<body>
+    <h1>Expense List</h1>
+    <form method="GET" action="/">
+        <label>Filter by Category:</label>
+        <select name="category">
+            <option value="">All</option>
+            <option>Food</option>
+            <option>Transport</option>
+            <option>Shopping</option>
+            <option>Bills</option>
+            <option>Others</option>
+        </select>
+        <label>Filter by Date:</label>
+        <input type="date" name="date">
+        <button type="submit">Filter</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+        </tr>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.title }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+            <td>{{ expense.date }}</td>
+            <td><a href="/edit/{{ expense.id }}">Edit</a></td>
+            <td><a href="{% url 'delete_expense' expense.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+ <a href="/add/">Add Expense</a>
+</body>
+</html>
