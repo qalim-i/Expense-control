@@ -1,17 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Delete Expense</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/expens.css' %}">
-</head>
-<body>
-    <h1>Delete Expense</h1>
-    <p>Are you sure you want to delete "{{ expense.title }}"?</p>
-    <form method="POST">
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cp-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+    <h2 style="color: var(--cp-red); margin-bottom: 1.5rem; text-shadow: 0 0 5px var(--cp-red);">CONFIRM_DELETION</h2>
+
+    <p style="color: var(--cp-white); font-size: 1.1rem; margin-bottom: 2rem;">
+        ARE YOU SURE YOU WANT TO DELETE ACCESS TO THE TRANSACTION: <br>
+        <span style="color: var(--cp-yellow); font-weight: bold; font-size: 1.3rem;">"{{ expense.title }}"</span>?
+    </p>
+
+    <div
+        style="background: rgba(255, 0, 60, 0.1); border: 1px solid var(--cp-red); padding: 1rem; margin-bottom: 2rem; color: var(--cp-red); font-size: 0.9rem;">
+        WARNING: THIS ACTION IS IRREVERSIBLE. DATA WILL BE PURGED.
+    </div>
+
+    <form method="post" style="display: flex; justify-content: center; gap: 20px;">
         {% csrf_token %}
-        <button type="submit">Yes, Delete</button>
-        <a href="/">Cancel</a>
+        <a href="{% url 'expense_list' %}" class="cp-btn cp-btn-cyan">ABORT</a>
+        <button type="submit" class="cp-btn">CONFIRM_PURGE</button>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

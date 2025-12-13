@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Control 2077</title>
+    <link rel="stylesheet" href="{% static 'css/cyberpunk.css' %}">
+</head>
+
+<body>
+
+    <!-- Header / Nav -->
+    <nav
+        style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 2px solid var(--cp-gray); background: rgba(0,0,0,0.8);">
+        <div class="logo">
+            <a href="{% url 'expense_list' %}"
+                style="font-family: var(--cp-font-header); font-size: 1.5rem; color: var(--cp-yellow);">
+                EXPENSE_PRO<span style="color: var(--cp-cyan);">.sys</span>
+            </a>
+        </div>
+
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+            <span style="margin-right: 20px; color: var(--cp-gray);">USER: {{ user.username|upper }}</span>
+            <a href="{% url 'set_budget' %}" class="cp-btn cp-btn-cyan"
+                style="font-size: 0.8rem; margin-right: 10px;">SET BUDGET</a>
+            <a href="{% url 'logout' %}" class="cp-btn" style="font-size: 0.8rem;">LOGOUT</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="cp-btn cp-btn-primary" style="margin-right: 10px;">LOGIN</a>
+            <a href="{% url 'register' %}" class="cp-btn">JOIN</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Decoration Footer -->
+    <div
+        style="position: fixed; bottom: 20px; right: 20px; opacity: 0.5; font-family: var(--cp-font-header); font-size: 0.7rem; text-align: right; pointer-events: none;">
+        SYSTEM STATUS: ONLINE<br>
+        V.2.0.77
+    </div>
+
+</body>
+
+</html>

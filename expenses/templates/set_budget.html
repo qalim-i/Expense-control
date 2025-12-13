@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cp-card" style="max-width: 600px; margin: 0 auto;">
+    <h2 style="color: var(--cp-cyan); margin-bottom: 1.5rem;">CONFIGURE_BUDGET</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div style="margin-bottom: 1rem;">
+            <label
+                style="display: block; color: var(--cp-yellow); margin-bottom: 5px; font-size: 0.9rem; text-transform: uppercase;">{{ field.label }}</label>
+            <!-- Render standard widget but apply our class -->
+            {{ field }}
+        </div>
+        {% endfor %}
+
+        <style>
+            /* Quick hack to style django-rendered inputs */
+            input[type="number"],
+            input[type="text"],
+            input[type="date"] {
+                width: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--cp-gray);
+                border-left: 2px solid var(--cp-cyan);
+                color: var(--cp-white);
+                padding: 12px;
+                font-family: var(--cp-font-main);
+                font-size: 1.1rem;
+            }
+
+            input:focus {
+                outline: none;
+                border-color: var(--cp-yellow);
+            }
+        </style>
+
+        <div style="margin-top: 2rem; text-align: right;">
+            <a href="{% url 'expense_list' %}" style="margin-right: 20px; color: var(--cp-gray);">CANCEL</a>
+            <button type="submit" class="cp-btn cp-btn-cyan">SET_PROTOCOL</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

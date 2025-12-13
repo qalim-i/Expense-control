@@ -1,44 +1,80 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Expense List</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/expense_list.css' %}">
-</head>
-<body>
-    <h1>Expense List</h1>
-    <form method="GET" action="/">
-        <label>Filter by Category:</label>
-        <select name="category">
-            <option value="">All</option>
-            <option>Food</option>
-            <option>Transport</option>
-            <option>Shopping</option>
-            <option>Bills</option>
-            <option>Others</option>
-        </select>
-        <label>Filter by Date:</label>
-        <input type="date" name="date">
-        <button type="submit">Filter</button>
-    </form>
-    <table border="1">
-        <tr>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Date</th>
-        </tr>
-        {% for expense in expenses %}
-        <tr>
-            <td>{{ expense.title }}</td>
-            <td>{{ expense.amount }}</td>
-            <td>{{ expense.category }}</td>
-            <td>{{ expense.date }}</td>
-            <td><a href="/edit/{{ expense.id }}">Edit</a></td>
-            <td><a href="{% url 'delete_expense' expense.id %}">Delete</a></td>
-        </tr>
-        {% endfor %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Budget Section -->
+<div class="cp-card">
+    <h2 style="color: var(--cp-yellow); margin-bottom: 1rem;">
+        <span style="color: var(--cp-gray);">//</span> BUDGET_MONITOR
+    </h2>
+
+    {% if budget %}
+    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <span>USAGE: ${{ total_spent }}</span>
+        <span>LIMIT: ${{ budget.limit_amount }}</span>
+    </div>
+
+    <div class="cp-progress-container">
+        <div class="cp-progress-bar {% if over_budget %}danger{% elif percentage > 80 %}warning{% endif %}"
+            style="width: {{ percentage }}%;">
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--cp-gray);">
+        <span>START: {{ budget.start_date }}</span>
+        <span style="color: {% if remaining < 0 %}var(--cp-red){% else %}var(--cp-neon-green){% endif %}">
+            REMAINING: ${{ remaining }}
+        </span>
+        <span>END: {{ budget.end_date }}</span>
+    </div>
+    {% else %}
+    <p style="color: var(--cp-gray);">NO BUDGET PROTOCOL ESTABLISHED.</p>
+    <br>
+    <a href="{% url 'set_budget' %}" class="cp-btn cp-btn-cyan">INITIALIZE BUDGET</a>
+    {% endif %}
+</div>
+
+<!-- Filtering & Actions -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2 class="glitch" data-text="TRANSACTION_LOG">TRANSACTION_LOG</h2>
+    <a href="{% url 'add_expense' %}" class="cp-btn cp-btn-primary">+ NEW_ENTRY</a>
+</div>
+
+<!-- Expense Table -->
+<div class="cp-card" style="padding: 0;">
+    <table class="cp-table">
+        <thead>
+            <tr>
+                <th>TITLE</th>
+                <th>CATEGORY</th>
+                <th>DATE</th>
+                <th>AMOUNT</th>
+                <th>ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.title }}</td>
+                <td><span style="background: rgba(255,255,255,0.1); padding: 2px 8px; font-size: 0.8rem;">{{
+                        expense.category }}</span></td>
+                <td>{{ expense.date }}</td>
+                <td style="color: var(--cp-cyan); font-weight: bold;">${{ expense.amount }}</td>
+                <td>
+                    <a href="{% url 'edit_expense' expense.id %}"
+                        style="margin-right: 10px; color: var(--cp-yellow);">EDIT</a>
+                    <a href="{% url 'delete_expense' expense.id %}" style="color: var(--cp-red);">DEL</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 2rem; color: var(--cp-gray);">
+                    [NO DATA FOUND]
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
- <a href="/add/">Add Expense</a>
-</body>
-</html>
+</div>
+
+{% endblock %}

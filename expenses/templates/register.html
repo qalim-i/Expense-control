@@ -1,16 +1,28 @@
-<!-- expenses/templates/expenses/register.html -->
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
-    <h1>Register</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-</body>
-</html>
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div class="cp-card" style="width: 100%; max-width: 400px;">
+        <h2 class="glitch" data-text="NEW_USER_ENTRY" style="text-align: center; margin-bottom: 2rem;">NEW_USER_ENTRY
+        </h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div style="margin-bottom: 1rem;">
+                <label
+                    style="display: block; color: var(--cp-cyan); margin-bottom: 5px; font-size: 0.9rem; text-transform: uppercase;">{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="cp-btn cp-btn-cyan"
+                style="width: 100%; margin-top: 1rem;">REGISTER_IDENTITY</button>
+        </form>
+
+        <div style="margin-top: 2rem; text-align: center; font-size: 0.8rem; color: var(--cp-gray);">
+            ALREADY REGISTERED? <a href="{% url 'login' %}" style="color: var(--cp-yellow);">LOGIN</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
