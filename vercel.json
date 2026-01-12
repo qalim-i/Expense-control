@@ -1,15 +1,17 @@
 {
-    "builds": [
-        {
-        "src": "expense_control/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "runtime": "python3.11" }
-        }
-    ],
-    "routes": [
-        {
-        "src": "/(.*)",
-        "dest": "expense_control/wsgi.py"
-        }
-    ]
+  "builds": [
+    {
+      "src": "expense_control/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.11"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "expense_control/wsgi.py"
+    }
+  ]
 }
