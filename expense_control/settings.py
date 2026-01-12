@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,7 +84,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "railway",
         "USER": "postgres",
-        "PASSWORD": "JgklwlfcYPpiGnuhFNFRwwiplVcJherF",
+        "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": "turntable.proxy.rlwy.net",
         "PORT": "27863",
     }
